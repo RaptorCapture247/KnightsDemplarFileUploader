@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Knights Demplar – Scroll Vault Uploader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Cinematic Roman Serif (Option B) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --parchment: #f3e2c2;
+      --ink-main: #2f1b16;
+      --ink-muted: #5f4334;
+      --accent-magic: #7b63ff;
+      --stone-shadow: rgba(0,0,0,0.45);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      /* Your scroll background */
+      background-image: url("https://raw.githubusercontent.com/RaptorCapture247/KnightsDemplarFileUploader/bcf98e6dab6238e5a0db2dea7b38ddfaa4c12791/assets/background.png");
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+
+      color: var(--ink-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+    }
+
+    /* ============================
+       HEROIC HEADER (Option B)
+       ============================ */
+    .top-header {
+      text-align: center;
+      margin-bottom: 24px;
+      font-family: 'Cinzel', serif;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.65);
+    }
+
+    .top-header .title {
+      font-size: 2rem;
+      letter-spacing: 0.12em;
+      color: #f4e6c1;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    .top-header .subtitle {
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      color: #e2cda1;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    /* ============================
+       DESCRIPTION BELOW SCROLL TOP
+       ============================ */
+    .description-block {
+      margin-top: 120px; /* Positions under top scroll roller */
+      text-align: center;
+      width: 90%;
+      max-width: 800px;
+      color: #f3e7d0;
+      font-size: 1rem;
+      line-height: 1.5;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.65);
+    }
+
+    .rune-divider {
+      margin: 10px auto 26px;
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
+      opacity: 0.85;
+      color: #dfc7a1;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.55);
+      font-family: 'Cinzel', serif;
+    }
+
+    /* ============================
+       INNER UPLOAD PARCHMENT PANEL
+       ============================ */
+    .scroll-panel {
+      width: 90%;
+      max-width: 700px;
+      padding: 20px;
+      margin-top: 0;
+      margin-bottom: 80px;
+
+      background: rgba(245, 233, 205, 0.92);
+      border-radius: 14px;
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.65),
+        0 0 0 2px rgba(60,40,20,0.5);
+
+      backdrop-filter: blur(2px);
+
+      /* Moves panel INSIDE the scroll area */
+      margin-top: -40px;
+    }
+
+    .upload-heading {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      color: #3a2317;
+      margin: 10px 0 6px;
+    }
+
+    .upload-hint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #83614a;
+      margin-bottom: 14px;
+    }
+
+    .iframe-frame {
+      position: relative;
+      border-radius: 12px;
+      padding: 14px;
+      background: radial-gradient(circle at top, #f8e9ca, #e4c59d);
+      box-shadow:
+        inset 0 0 0 1px rgba(143, 102, 67, 0.9),
+        0 12px 26px rgba(0,0,0,0.35);
+    }
+
+    /* Runes around iframe */
+    .iframe-frame::before {
+      content: "ᚠ ᚢ ᚦ ᚨ ᚱ ᛗ ᛟ ᚹ ᛞ ᛋ ᛁ ᚾ ᚺ ᛏ ᛉ";
+      position: absolute;
+      inset: 8px;
+      border-radius: 10px;
+      border: 1px dashed rgba(123,85,52,0.7);
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      text-align: center;
+      line-height: 1.8;
+      color: rgba(123,85,52,0.75);
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      padding-top: 6px;
+      z-index: 10;
+    }
+
+    iframe {
+      width: 100%;
+      height: 460px;
+      border: none;
+      background: transparent;
+      z-index: 2;
+    }
+
+    .fallback {
+      text-align: center;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      color: #745136;
+    }
+
+    .fallback a {
+      color: var(--accent-magic);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(123, 99, 255, 0.4);
+    }
+
+    @media (max-width: 600px) {
+      .description-block { margin-top: 85px; }
+      iframe { height: 420px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================
+       HEADER ABOVE THE SCROLL
+  ======================================== -->
+  <div class="top-header">
+    <h1 class="title">Knights Demplar</h1>
+    <p class="subtitle">Community Art & Media Submissions</p>
+  </div>
+
+  <!-- =======================================
+       DESCRIPTION BETWEEN SCROLL TOP + PANEL
+  ======================================== -->
+  <div class="description-block">
+    Your creations strengthen the Order. Upload images or videos for possible inclusion
+    on the official Knights Demplar channels.
+    <div class="rune-divider">ᚠ ᚱ ᛖ ᛚ ᚨ ᛗ ᛟ ᚠ ᛊ</div>
+  </div>
+
+  <!-- =======================================
+       INNER UPLOAD PANEL (inside scroll area)
+  ======================================== -->
+  <div class="scroll-panel">
+    <h2 class="upload-heading">Scroll Vault Uplink</h2>
+    <p class="upload-hint">The portal below connects securely to our external upload vault.</p>
+
+    <div class="iframe-frame">
+      <iframe id="pigeonFrame" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    </div>
+
+    <p class="fallback">
+      Uploader not appearing? <a id="pigeonLink" href="#" target="_blank">Open in new tab</a>
+    </p>
+  </div>
+
+  <script>
+    const PIGEON_UPLOAD_URL =
+      "https://pigeonfiles.com/u/p77sng2yzbmlrlw15sw83f";
+
+    document.getElementById("pigeonFrame").src = PIGEON_UPLOAD_URL;
+    document.getElementById("pigeonLink").href = PIGEON_UPLOAD_URL;
+  </script>
+
+</body>
+</html>
